@@ -3,6 +3,8 @@ const ghUsername = "redrambles";
 const repoList = document.querySelector(".repo-list");
 const allReposContainer = document.querySelector(".repos");
 const repoDataContainer = document.querySelector(".repo-data");
+const backButton = document.querySelector(".back");
+const filterInput = document.querySelector(".filter-repos");
 
 const gitUserInfo = async function () {
   const userInfo = await fetch(`https://api.github.com/users/${ghUsername}`);
@@ -37,7 +39,7 @@ const gitRepos = async function (ghUsername) {
 };
 
 const displayRepos = function (repos) {
-  // Grab info about the GitHub user to display on left hand side of list
+  filterInput.classList.remove("hide");
   for (const repo of repos) {
     const repoItem = document.createElement("li");
     repoItem.classList.add("repo");
@@ -74,6 +76,7 @@ const getRepoInfo = async function (reponame) {
 };
 
 const displayRepoInfo = function (repoData, languages) {
+  backButton.classList.remove("hide");
   repoDataContainer.innerHTML = "";
   repoDataContainer.classList.remove("hide");
   allReposContainer.classList.add("hide");
@@ -87,3 +90,23 @@ const displayRepoInfo = function (repoData, languages) {
   `;
   repoDataContainer.append(div);
 };
+
+backButton.addEventListener("click", function () {
+  allReposContainer.classList.remove("hide");
+  repoDataContainer.classList.add("hide");
+  backButton.classList.add("hide");
+});
+
+// Dynamic search
+filterInput.addEventListener("input", function (e) {
+  const searchText = e.target.value;
+  const repos = document.querySelectorAll(".repo");
+
+  for (const repo of repos) {
+    if (!repo.innerText.toLowerCase().includes(searchText.toLowerCase())) {
+      repo.classList.add("hide");
+    } else {
+      repo.classList.remove("hide");
+    }
+  }
+});
