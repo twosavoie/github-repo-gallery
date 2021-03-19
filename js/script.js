@@ -1,6 +1,8 @@
 const overview = document.querySelector(".overview");
 const ghUsername = "redrambles";
 const repoList = document.querySelector(".repo-list");
+const allReposContainer = document.querySelector(".repos");
+const repoDataContainer = document.querySelector(".repo-data");
 
 const gitUserInfo = async function () {
   const userInfo = await fetch(`https://api.github.com/users/${ghUsername}`);
@@ -45,4 +47,43 @@ const displayRepos = function (repos) {
       `;
     repoList.append(repoItem);
   }
+};
+
+repoList.addEventListener("click", function (e) {
+  if (e.target.matches("h3")) {
+    const reponame = e.target.innerText;
+    getRepoInfo(reponame);
+  }
+});
+
+const getRepoInfo = async function (reponame) {
+  const fetchInfo = await fetch(`https://api.github.com/repos/${ghUsername}/${reponame}`);
+  const repoData = await fetchInfo.json();
+
+  // Grab languages
+  const fetchLanguages = await fetch(repoData.languages_url);
+  const languageData = await fetchLanguages.json();
+
+  // Make a list of languages
+  const languages = [];
+  for (const language in languageData) {
+    languages.push(language);
+  }
+
+  displayRepoInfo(repoData, languages);
+};
+
+const displayRepoInfo = function (repoData, languages) {
+  repoDataContainer.innerHTML = "";
+  repoDataContainer.classList.remove("hide");
+  allReposContainer.classList.add("hide");
+  const div = document.createElement("div");
+  div.innerHTML = `
+    <h3>Name: ${repoData.name}</h3>
+    <p>Description: ${repoData.description}</p>
+    <p>Default Branch: ${repoData.default_branch}</p>
+    <p>Languages: ${languages.join(", ")}</p>
+    <a class="visit" href="${repoData.html_url}" target="_blank" rel="noreferrer noopener">Visit Repo on GitHub!</a>
+  `;
+  repoDataContainer.append(div);
 };
