@@ -1,11 +1,11 @@
 const overview = document.querySelector(".overview");
-const ghUsername = "redrambles";
+const username = "redrambles";
 const repoList = document.querySelector(".repo-list");
 const allReposContainer = document.querySelector(".repos");
 const repoDataContainer = document.querySelector(".repo-data");
 
 const gitUserInfo = async function () {
-  const userInfo = await fetch(`https://api.github.com/users/${ghUsername}`);
+  const userInfo = await fetch(`https://api.github.com/users/${username}`);
   const data = await userInfo.json();
   displayUserInfo(data);
 };
@@ -27,11 +27,11 @@ const displayUserInfo = function (data) {
     </div>
   `;
   overview.append(div);
-  gitRepos(ghUsername);
+  gitRepos(username);
 };
 
-const gitRepos = async function (ghUsername) {
-  const fetchRepos = await fetch(`https://api.github.com/users/${ghUsername}/repos?sort=updated&per_page=100`);
+const gitRepos = async function (username) {
+  const fetchRepos = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=100`);
   const repoData = await fetchRepos.json();
   displayRepos(repoData);
 };
@@ -56,7 +56,7 @@ repoList.addEventListener("click", function (e) {
 });
 
 const getRepoInfo = async function (reponame) {
-  const fetchInfo = await fetch(`https://api.github.com/repos/${ghUsername}/${reponame}`);
+  const fetchInfo = await fetch(`https://api.github.com/repos/${username}/${reponame}`);
   const repoData = await fetchInfo.json();
 
   // Grab languages
