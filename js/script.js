@@ -3,7 +3,7 @@ const username = "redrambles";
 const repoList = document.querySelector(".repo-list");
 const allReposContainer = document.querySelector(".repos");
 const repoDataContainer = document.querySelector(".repo-data");
-const backButton = document.querySelector(".back");
+const viewReposButton = document.querySelector(".view-repos");
 const filterInput = document.querySelector(".filter-repos");
 
 const gitUserInfo = async function () {
@@ -76,7 +76,7 @@ const getRepoInfo = async function (repoName) {
 };
 
 const displayRepoInfo = function (repoData, languages) {
-  backButton.classList.remove("hide");
+  viewReposButton.classList.remove("hide");
   repoDataContainer.innerHTML = "";
   repoDataContainer.classList.remove("hide");
   allReposContainer.classList.add("hide");
@@ -91,13 +91,13 @@ const displayRepoInfo = function (repoData, languages) {
   repoDataContainer.append(div);
 };
 
-backButton.addEventListener("click", function () {
+viewReposButton.addEventListener("click", function () {
   allReposContainer.classList.remove("hide");
   repoDataContainer.classList.add("hide");
-  backButton.classList.add("hide");
+  viewReposButton.classList.add("hide");
 });
 
-// Dynamic search
+// // Dynamic search
 filterInput.addEventListener("input", function (e) {
   const searchText = e.target.value;
   const repos = document.querySelectorAll(".repo");
