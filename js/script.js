@@ -42,21 +42,20 @@ const displayRepos = function (repos) {
     repoItem.classList.add("repo");
     repoItem.innerHTML = `
       <h3>${repo.name}</h3>
-      <p>Main language: ${repo.language}</p>
-      `;
+      <p>Main language: ${repo.language}</p>`;
     repoList.append(repoItem);
   }
 };
 
 repoList.addEventListener("click", function (e) {
   if (e.target.matches("h3")) {
-    const reponame = e.target.innerText;
-    getRepoInfo(reponame);
+    const repoName = e.target.innerText;
+    getRepoInfo(repoName);
   }
 });
 
-const getRepoInfo = async function (reponame) {
-  const fetchInfo = await fetch(`https://api.github.com/repos/${username}/${reponame}`);
+const getRepoInfo = async function (repoName) {
+  const fetchInfo = await fetch(`https://api.github.com/repos/${username}/${repoName}`);
   const repoData = await fetchInfo.json();
 
   // Grab languages
