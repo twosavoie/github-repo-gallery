@@ -101,12 +101,14 @@ viewReposButton.addEventListener("click", function () {
 filterInput.addEventListener("input", function (e) {
   const searchText = e.target.value;
   const repos = document.querySelectorAll(".repo");
+  const repoLowerText = repos.innerText.toLowerCase();
+  const searchLowerText = searchText.toLowerCase();
 
   for (const repo of repos) {
-    if (!repo.innerText.toLowerCase().includes(searchText.toLowerCase())) {
-      repo.classList.add("hide");
-    } else {
+    if (repoLowerText === searchLowerText) {
       repo.classList.remove("hide");
+    } else {
+      repo.classList.add("hide");
     }
   }
 });
